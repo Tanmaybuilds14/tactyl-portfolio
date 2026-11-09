@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site, legalLinks } from "@/lib/site";
+import { CopyrightYear } from "@/components/site/copyright-year";
 
 const columns = [
   {
@@ -85,7 +86,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-border/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-label text-muted-foreground">
-            © {new Date().getFullYear()} {site.name}
+            © <CopyrightYear /> {site.name}
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {legalLinks.map((link) => (

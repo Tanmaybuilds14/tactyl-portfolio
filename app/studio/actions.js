@@ -43,14 +43,16 @@ export async function savePostAction(formData) {
 
   const parsed = postSchema.safeParse(raw);
   if (!parsed.success) {
-    const first = Object.values(parsed.error.flatten().fieldErrors).flat().filter(Boolean)[0];
-    return { error: first || "Check the form and try again." };
+    const first =
+      Object.values(parsed.error.flatten().fieldErrors).flat().filter(Boolean)[0] ||
+      "Check the form and try again.";
+    redirect(`/studio/${id || "new"}?error=${encodeURIComponent(first)}`);
   }
 
   const value = parsed.data;
   const payload = {
     title: value.title,
-    slug: value.slug || slugify(value.title),
+    slug: slugify(value.slug || value.title),
     excerpt: value.excerpt,
     body: value.body,
     status: value.status,
@@ -62,7 +64,7 @@ export async function savePostAction(formData) {
       .split(",")
       .map((tag) => slugify(tag))
       .filter(Boolean),
-    featured: value.featured,
+    featured: Boolean(value.featured),
   };
 
   if (id) {
@@ -72,26 +74,23 @@ export async function savePostAction(formData) {
   }
 
   revalidateBlog();
-  redirect("/studio");
+  redirect("/studio?saved=1");
 }
 
 export async function deletePostAction(formData) {
   await requireStudio();
   await deletePost(String(formData.get("id") || ""));
   revalidateBlog();
-  redirect("/studio");
+  redirect("/studio?deleted=1");
 }
 
 export async function toggleStatusAction(formData) {
   await requireStudio();
   const id = String(formData.get("id") || "");
-  const next = String(formData.get("status") || "draft");
-  await updatePost(id, {
-    status: next === "published" ? "published" : "draft",
-    publishedAt: next === "published" ? new Date().toISOString() : undefined,
-  });
+  const next = String(formData.get("status") || "draft") === "published" ? "published" : "draft";
+  await updatePost(id, { status: next });
   revalidateBlog();
-  redirect("/studio");
+  redirect("/studio?updated=1");
 }
 
 export async function previewAction(formData) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll, useSpring } from "motion/react";
@@ -18,7 +18,6 @@ import {
 import { navigation, site } from "@/lib/site";
 
 export function Header() {
-  const pathname = usePathname();
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -62,23 +61,9 @@ export function Header() {
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-            {navigation.map((item) => {
-              const active =
-                pathname === item.href || pathname.startsWith(`${item.href}/`);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
-                    active
-                      ? "bg-secondary text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {item.title}
-                </Link>
-              );
-            })}
+            <Suspense fallback={<NavItems />}>
+              <ActiveNavItems />
+            </Suspense>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -147,12 +132,50 @@ export function Header() {
       </motion.header>
 
       {/* Sticky mobile conversion bar, added to the plan as a suggestion. */}
-      <MobileCta pathname={pathname} />
+      <Suspense fallback={null}>
+        <MobileCta />
+      </Suspense>
     </>
   );
 }
 
-function MobileCta({ pathname }) {
+function NavItems({ pathname }) {
+  return (
+    <>
+      {navigation.map((item) => {
+        const active =
+          typeof pathname === "string" &&
+          (pathname === item.href || pathname.startsWith(`${item.href}/`));
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={active ? "page" : undefined}
+            className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+              active
+                ? "bg-secondary text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {item.title}
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
+/**
+ * usePathname is URL data: it has to sit behind its own Suspense boundary so the
+ * app shell for unknown params can still be prerendered.
+ */
+function ActiveNavItems() {
+  const pathname = usePathname();
+  return <NavItems pathname={pathname} />;
+}
+
+function MobileCta() {
+  const pathname = usePathname();
   const [show, setShow] = useState(false);
   const { scrollY } = useScroll();
 

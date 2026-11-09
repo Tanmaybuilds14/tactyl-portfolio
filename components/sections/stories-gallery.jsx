@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -56,58 +58,19 @@ export function StoryCard({ story, index }) {
 }
 
 export function StoriesGallery({ stories }) {
-  const ref = useRef(null);
   const reduced = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 26,
-    restDelta: 0.001,
-  });
-  const x = useTransform(progress, [0, 1], ["1%", "-64%"]);
-
-  if (reduced) {
-    return (
-      <div className="grid gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
-        {stories.map((story, index) => (
-          <StoryCard key={story.slug} story={story} index={index} />
-        ))}
-      </div>
-    );
-  }
 
   return (
     <>
-      <div ref={ref} className="relative hidden h-[300vh] lg:block">
-        <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
-          <motion.div
-            style={{ x }}
-            className="flex gap-5 pl-[max(2rem,calc((100vw-72rem)/2))]"
-          >
-            {stories.map((story, index) => (
-              <div key={story.slug} className="w-[24rem] shrink-0">
-                <StoryCard story={story} index={index} />
-              </div>
-            ))}
-            <div className="flex w-[20rem] shrink-0 items-center">
-              <Link
-                href="/success-stories"
-                className="group flex flex-col gap-3 rounded-2xl border border-dashed border-border p-8 transition-colors hover:border-foreground/40"
-              >
-                <span className="font-label text-muted-foreground">All work</span>
-                <span className="text-2xl leading-tight font-medium tracking-tight">
-                  See every student project
-                </span>
-                <ArrowUpRight className="size-5 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-          </motion.div>
+      {reduced ? (
+        <div className="grid gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
+          {stories.map((story, index) => (
+            <StoryCard key={story.slug} story={story} index={index} />
+          ))}
         </div>
-      </div>
+      ) : (
+        <ScrollGallery stories={stories} />
+      )}
 
       <div className="px-5 sm:px-8 lg:hidden">
         <Carousel opts={{ align: "start", loop: false }} className="w-full">
@@ -125,5 +88,47 @@ export function StoriesGallery({ stories }) {
         </Carousel>
       </div>
     </>
+  );
+}
+
+/** Sticky horizontal scroll row. Its own component keeps the target ref mounted. */
+function ScrollGallery({ stories }) {
+  const ref = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.001,
+  });
+  const x = useTransform(progress, [0, 1], ["1%", "-64%"]);
+
+  return (
+    <div ref={ref} className="relative hidden h-[300vh] lg:block">
+      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
+        <motion.div style={{ x }} className="flex gap-5 pl-[max(2rem,calc((100vw-72rem)/2))]">
+          {stories.map((story, index) => (
+            <div key={story.slug} className="w-[24rem] shrink-0">
+              <StoryCard story={story} index={index} />
+            </div>
+          ))}
+          <div className="flex w-[20rem] shrink-0 items-center">
+            <Link
+              href="/success-stories"
+              className="group flex flex-col gap-3 rounded-2xl border border-dashed border-border p-8 transition-colors hover:border-foreground/40"
+            >
+              <span className="font-label text-muted-foreground">All work</span>
+              <span className="text-2xl leading-tight font-medium tracking-tight">
+                See every student project
+              </span>
+              <ArrowUpRight className="size-5 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }

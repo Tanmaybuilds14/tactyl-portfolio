@@ -1,6 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 /**
  * Fade and rise on enter, once. Animates transform + opacity only, per the

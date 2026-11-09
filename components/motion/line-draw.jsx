@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { animate, onScroll, svg } from "animejs";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 /**
  * anime.js line drawing.

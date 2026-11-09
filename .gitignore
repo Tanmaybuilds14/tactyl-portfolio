@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 docs/
+
+# local backend data (blog posts are seeded on first run, leads are personal data)
+/data
+
+# local logs
+/build.log
+/lint.log
+/dev.log
