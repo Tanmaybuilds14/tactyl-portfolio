@@ -204,10 +204,10 @@ function JourneyTabs({ phases, reduced }) {
         body="Each phase has an exit gate. Nothing moves forward until the work exists."
       />
       <Tabs value={tab} onValueChange={setTab} className="mt-8">
-        <TabsList className="grid h-auto w-full grid-cols-2 gap-1 bg-muted p-1 sm:grid-cols-4">
+        <TabsList className="flex h-auto w-full max-w-md gap-1 bg-muted p-1">
           {phases.map((phase, index) => (
-            <TabsTrigger key={phase.id} value={phase.id} className="h-9">
-              {`0${index + 1} · ${phase.title.split(" ")[0]}`}
+            <TabsTrigger key={phase.id} value={phase.id} className="h-9 flex-1 text-xs sm:text-sm">
+              {`0${index + 1} · ${phase.title.split(/[,\s]+/)[0]}`}
             </TabsTrigger>
           ))}
         </TabsList>

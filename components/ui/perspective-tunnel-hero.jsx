@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
+  useMotionValueEvent,
   useMotionValue,
+  useScroll,
   useSpring,
   useTransform,
 } from "motion/react";
@@ -18,14 +21,15 @@ import { buttonVariants } from "@/components/ui/button";
  *
  * Ported to this project's setup: JavaScript instead of TSX, and `motion/react`
  * (the package already in the app) rather than a second framer-motion install.
- * The mechanics are unchanged: cards sit on a golden-angle spiral, fly down the
- * Z axis on a spring-smoothed progress value driven by the wheel, and pan with
- * the pointer. Accent colours are remapped from indigo to the Graphite Mono
- * tokens, and the photos are replaced by the real case-study cards.
+ * The golden-angle spiral, card sizing, stagger and spring values are the
+ * original component's.
+ *
+ * Behaviour: page scroll flies the cards down the Z axis through a sticky
+ * viewport; when the corridor is nearly spent the headline and CTAs fade in and
+ * stay up while the rest of the hero scrolls away. Scroll works on touch too.
  */
 const GOLDEN_ANGLE_STEP = 137.5;
 const SPRING_CONFIG = { stiffness: 60, damping: 25, mass: 0.5 };
-const WHEEL_SPEED = 0.0008;
 
 function buildTunnelCards(cards) {
   return cards.map((item, i) => {
@@ -95,23 +99,26 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
   return (
     <motion.div
       style={{ width: cardWidth, transform, opacity, zIndex: card.index + 1 }}
-      className="pointer-events-auto absolute top-1/2 left-1/2 aspect-[4/5] cursor-pointer will-change-transform select-none"
+      className="pointer-events-none absolute top-1/2 left-1/2 aspect-[4/5] select-none"
     >
-      <Link
-        href={`/success-stories/${card.item.slug}`}
-        className="group relative block h-full w-full overflow-hidden rounded-2xl bg-card shadow-2xl shadow-black/50 ring-1 ring-foreground/12 transition-all duration-500 hover:ring-foreground/45"
-      >
+      <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-card shadow-2xl shadow-black/50 ring-1 ring-foreground/12">
+        {card.item.image ? (
+          <Image
+            src={card.item.image}
+            alt=""
+            fill
+            sizes="270px"
+            className="object-cover object-top"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className={`absolute inset-0 bg-gradient-to-br ${card.item.accent} via-card to-card`}
+          />
+        )}
         <div
           aria-hidden="true"
-          className={`absolute inset-0 bg-gradient-to-br ${card.item.accent} via-card to-card`}
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,oklch(1_0_0/0.14),transparent_62%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(to_right,oklch(1_0_0/0.05)_1px,transparent_1px)] [background-size:26px_26px]"
+          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10"
         />
 
         <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-2">
@@ -129,26 +136,25 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
             </span>
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }
 
 export default function PerspectiveTunnelHero({
   cards,
-  eyebrow = "8-week 1:1 programme",
+  eyebrow = "8-week 1:1 programme · Ages 13–18",
   title = "Empower your kid to build the next app that",
   accent = "impacts millions.",
   description = "In eight weeks, one student and one mentor take a real problem from interview to a launched product.",
-  promptLabel = "Scroll to fly through the work",
 }) {
-  const containerRef = useRef(null);
-
+  const sectionRef = useRef(null);
   const [stage, setStage] = useState({
     width: 1440,
     height: 900,
     isMobile: false,
   });
+  const [copyInteractive, setCopyInteractive] = useState(false);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -164,120 +170,120 @@ export default function PerspectiveTunnelHero({
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  // Read by the wheel handler; smoothed for the card transforms.
-  const rawProgress = useMotionValue(0);
-  const smoothProgress = useSpring(rawProgress, {
-    stiffness: 80,
-    damping: 30,
-    restDelta: 0.0001,
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.001,
   });
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+  // Start a little way into the corridor so the first frame has cards in view.
+  const tunnelProgress = useTransform(progress, [0, 1], [0.2, 1]);
 
-    const handleWheel = (event) => {
-      const current = rawProgress.get();
-      const atStart = current <= 0 && event.deltaY < 0;
-      const atEnd = current >= 1 && event.deltaY > 0;
+  useMotionValueEvent(progress, "change", (value) => {
+    const next = value >= 0.82;
+    setCopyInteractive((current) => (current === next ? current : next));
+  });
 
-      // At either edge let the page scroll normally instead of trapping it.
-      if (atStart || atEnd) return;
-
-      event.preventDefault();
-      const next = Math.min(1, Math.max(0, current + event.deltaY * WHEEL_SPEED));
-      rawProgress.set(next);
-    };
-
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, [rawProgress]);
+  const copyOpacity = useTransform(progress, [0.78, 0.95], [0, 1]);
+  const copyY = useTransform(progress, [0.78, 0.95], [28, 0]);
+  const copyScale = useTransform(progress, [0.78, 0.95], [0.97, 1]);
+  const hintOpacity = useTransform(progress, [0, 0.08], [1, 0]);
 
   const pointer = useCameraParallax(true);
   const tunnelCards = buildTunnelCards(cards);
 
-  const titleScale = useTransform(smoothProgress, [0, 0.5, 1], [0.72, 1, 1.18]);
-  const titleOpacity = useTransform(smoothProgress, [0, 0.12, 0.85, 1], [0.25, 1, 1, 0]);
-  const promptOpacity = useTransform(smoothProgress, [0, 0.12], [1, 0]);
-
   return (
-    <div
-      ref={containerRef}
-      className="relative flex h-[100svh] w-full items-center justify-center overflow-hidden bg-background text-foreground select-none"
-      style={{
-        perspective: stage.isMobile ? "900px" : "1200px",
-        transformStyle: "preserve-3d",
-      }}
-    >
-      {/* Background grid & glow */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(oklch(1_0_0/0.12)_1px,transparent_1px)] [background-size:28px_28px] opacity-60 [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,oklch(1_0_0/0.08)_0%,transparent_70%)]" />
+    <section ref={sectionRef} className="relative h-[240svh]">
+      <div className="sticky top-0 h-[100svh] overflow-hidden bg-background text-foreground select-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            perspective: stage.isMobile ? "900px" : "1200px",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {/* Background grid & glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(oklch(1_0_0/0.12)_1px,transparent_1px)] [background-size:28px_28px] opacity-60 [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,oklch(1_0_0/0.08)_0%,transparent_70%)]" />
 
-      {/* Depth ring guides */}
-      <div className="pointer-events-none absolute h-[48vmin] w-[48vmin] rounded-full border border-foreground/12" />
-      <div className="pointer-events-none absolute h-[76vmin] w-[76vmin] rounded-full border border-dashed border-foreground/10" />
+          {/* Depth ring guides */}
+          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[48vmin] w-[48vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/12" />
+          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[76vmin] w-[76vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-foreground/10" />
 
-      {/* Central anchor typography */}
-      <motion.div
-        style={{ scale: titleScale, opacity: titleOpacity }}
-        className="pointer-events-none z-0 flex max-w-2xl flex-col items-center px-6 text-center"
-      >
-        <p className="font-label text-foreground/50">{eyebrow} · Ages 13–18</p>
-        <h1 className="mt-5 text-4xl leading-[0.95] font-medium tracking-[-0.045em] text-balance sm:text-6xl lg:text-7xl">
-          {title}{" "}
-          <span className="bg-gradient-to-b from-foreground via-foreground/80 to-foreground/35 bg-clip-text text-transparent">
-            {accent}
-          </span>
-        </h1>
-        <p className="mt-5 max-w-[42ch] text-sm leading-relaxed font-light text-muted-foreground sm:text-base">
-          {description}
-        </p>
-
-        <div className="pointer-events-auto mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/contact" className={buttonVariants({ className: "h-11 rounded-full px-6 text-sm" })}>
-            Book a free consultation
-            <ArrowUpRight data-icon="inline-end" />
-          </Link>
-          <Link
-            href="/success-stories"
-            className={buttonVariants({
-              variant: "outline",
-              className: "h-11 rounded-full border-foreground/20 px-6 text-sm",
-            })}
+          {/* 3D Z-space plane */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ transformStyle: "preserve-3d" }}
           >
-            See student work
-          </Link>
+            {tunnelCards.map((card) => (
+              <TunnelCard
+                key={card.item.slug}
+                card={card}
+                progress={tunnelProgress}
+                pointer={pointer}
+                total={tunnelCards.length}
+                stage={stage}
+              />
+            ))}
+          </div>
         </div>
-      </motion.div>
 
-      {/* Scroll prompt */}
-      <motion.div
-        style={{ opacity: promptOpacity }}
-        className="pointer-events-none absolute bottom-8 z-20 flex flex-col items-center gap-2"
-      >
-        <span className="font-label text-muted-foreground">{promptLabel}</span>
-        <div className="flex flex-col items-center gap-1 text-muted-foreground">
-          <ArrowDown className="size-3.5 animate-bounce" />
-          <div className="h-6 w-px bg-gradient-to-b from-foreground/50 to-transparent" />
-        </div>
-      </motion.div>
+        {/* Copy, revealed as the flight ends */}
+        <motion.div
+          style={{
+            opacity: copyOpacity,
+            y: copyY,
+            scale: copyScale,
+            pointerEvents: copyInteractive ? "auto" : "none",
+          }}
+          className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center"
+        >
+          <div className="flex max-w-2xl flex-col items-center">
+            <p className="font-label text-foreground/50">{eyebrow}</p>
+            <h1 className="mt-5 text-4xl leading-[0.95] font-medium tracking-[-0.045em] text-balance sm:text-6xl lg:text-7xl">
+              {title}{" "}
+              <span className="bg-gradient-to-b from-foreground via-foreground/80 to-foreground/35 bg-clip-text text-transparent">
+                {accent}
+              </span>
+            </h1>
+            <p className="mt-5 max-w-[42ch] text-sm leading-relaxed font-light text-muted-foreground sm:text-base">
+              {description}
+            </p>
 
-      {/* 3D Z-space plane */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ transformStyle: "preserve-3d" }}
-      >
-        {tunnelCards.map((card) => (
-          <TunnelCard
-            key={card.item.slug}
-            card={card}
-            progress={smoothProgress}
-            pointer={pointer}
-            total={tunnelCards.length}
-            stage={stage}
-          />
-        ))}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/contact"
+                className={buttonVariants({ className: "h-11 rounded-full px-6 text-sm" })}
+              >
+                Book a free consultation
+                <ArrowUpRight data-icon="inline-end" />
+              </Link>
+              <Link
+                href="/success-stories"
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "h-11 rounded-full border-foreground/20 px-6 text-sm",
+                })}
+              >
+                See student work
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Scroll hint, gone once the flight starts */}
+        <motion.div
+          style={{ opacity: hintOpacity }}
+          className="pointer-events-none absolute inset-x-0 bottom-8 z-20 flex flex-col items-center gap-2"
+        >
+          <span className="font-label text-muted-foreground">Scroll to fly through the work</span>
+          <ArrowDown className="size-3.5 animate-bounce text-muted-foreground" />
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

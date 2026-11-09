@@ -22,6 +22,7 @@
       "updatedAt": "2025-07-09T09:00:00.000Z",
       "featured": true,
       "cover": "tunnel",
+      "image": "/images/blog/elevator-pitch.png",
       "body": "Every cohort starts the same way: a student describes an app with nine features, a marketplace, a chat system and a subscription tier. It is ambitious, it is coherent, and it cannot be built by one person in eight weeks.\n\n## The cut is the lesson\n\nWe do not tell students their idea is bad. We ask a narrower question: **which single user, on which single afternoon, gets value from this?**\n\nThat question usually removes two-thirds of the feature list. What remains is a product that can be built, tested with real people and launched inside the programme.\n\n> If a feature cannot be explained in one sentence to the person who will use it, it is not ready to be built.\n\n## What survives the cut\n\nThree things tend to survive:\n\n1. The core action — the thing the user came to do.\n2. The evidence that it worked — a confirmation, a result, a saved record.\n3. The way the student finds out it failed — feedback from a real user.\n\nEverything else is a phase-two feature. Not deleted, just written down and moved out of the build window.\n\n## Why parents worry\n\nCutting scope can look like lowering ambition. The opposite is true. A student who launches a small product learns deployment, feedback, iteration and public speaking. A student who abandons a large one learns that they ran out of time.\n\nThe ambition is not in the feature list. It is in finishing something that someone else uses."
     },
     {
@@ -46,6 +47,7 @@
       "updatedAt": "2025-06-02T09:00:00.000Z",
       "featured": false,
       "cover": "grid",
+      "image": "/images/blog/gen-z-startup-ideas.jpg",
       "body": "Launch week is where the programme stops being a class. Until then, the only person who has used the app is the student who built it — and they know where every button is.\n\n## The first ten users\n\nWe ask for ten real users. Not classmates, not parents. People who have the problem the app claims to solve.\n\nThe first three usually go badly. A form does not submit, a label is confusing, the empty state is a dead end. This is not failure; it is the first honest measurement of the work.\n\n## Feedback is a skill\n\nStudents practise asking a specific question — \"what did you expect to happen when you tapped that?\" — instead of \"do you like it?\". The second question produces politeness. The first produces a bug list.\n\n## Demo day\n\nAt the end of week eight, students present to family, mentors and peers. The brief is two minutes: the problem, the product, the first result. No slides full of features.\n\nThe room is usually surprised by how plainly the students talk about what did not work. That is the habit we are trying to build — the ability to describe your own work accurately, in public, without exaggerating."
     },
     {
@@ -70,7 +72,83 @@
       "updatedAt": "2025-04-18T09:00:00.000Z",
       "featured": false,
       "cover": "rings",
+      "image": "/images/blog/no-code-startup-ideas.webp",
       "body": "There is a version of this programme where week one starts with a code editor. It produces students who can write a loop and have never shipped anything.\n\n## Ship, then understand\n\nNo-code tools let a student put a real product in front of a real user in days. That first launch changes the questions they ask. Instead of \"what does this function do?\", they ask \"why do users drop off here?\"\n\nThose are better questions, and they arrive earlier.\n\n## When code is the right answer\n\nWe introduce code when a tool hits a wall that blocks the product:\n\n- A data shape the no-code platform cannot represent\n- A calculation the interface cannot express\n- A performance or cost limit that affects real users\n\nAt that point the student has a reason to learn, a working product to modify, and a way to check whether the change helped.\n\n## The trade-off\n\nNo-code has a ceiling. Students who want to work on systems software, games or performance-critical products will outgrow it. We say so in the first session rather than in week eight.\n\nFor everyone else, the sequence holds: build the product, find the wall, learn what the wall is made of."
+    },
+    {
+      "id": "post_startup_failure",
+      "slug": "why-startups-fail-at-the-idea-stage",
+      "title": "11 reasons why startups fail at the idea stage",
+      "excerpt": "Most startups do not fail at scale. They fail quietly at the idea stage, long before anyone launches.",
+      "status": "published",
+      "category": {
+        "slug": "method",
+        "name": "Method"
+      },
+      "tags": [
+        "ideas",
+        "validation"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2024-05-10T09:00:00.000Z",
+      "updatedAt": "2024-05-10T09:00:00.000Z",
+      "featured": false,
+      "cover": "grid",
+      "image": "/images/blog/startup-failure.png",
+      "body": "Startups rarely fail at scale. They fail at the idea stage, quietly, long before launch.\n\n## The usual reasons\n\n- The problem was assumed, never observed\n- The first user was the founder\n- The scope needed a team of adults\n- Success was measured in features, not use\n- Nobody wrote down what would count as failure\n\nWe ask students to name the failure condition in week one. It makes the build smaller and the feedback louder.\n\n## What to do instead\n\nInterview five people who actually have the problem. Build the smallest version that helps one of them. Show it to them a week later, and write down what broke."
+    },
+    {
+      "id": "post_startup_team",
+      "slug": "how-to-build-a-tech-startup-team",
+      "title": "How to build a tech startup team?",
+      "excerpt": "In the early days, fewer people is better. The hard part is not hiring — it is deciding who owns what.",
+      "status": "published",
+      "category": {
+        "slug": "method",
+        "name": "Method"
+      },
+      "tags": [
+        "teams",
+        "launch"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2024-04-20T09:00:00.000Z",
+      "updatedAt": "2024-04-20T09:00:00.000Z",
+      "featured": false,
+      "cover": "tunnel",
+      "image": "/images/blog/startup-team.png",
+      "body": "Most early teams fail for a boring reason: nobody knows who decides. Before hiring, before titles, agree on three things.\n\n## Decide who decides\n\nOne person owns the product decision for the first six months. Not a committee, not a weekly vote.\n\n## Hire for the missing job\n\nAdd a person only when a specific job is not getting done — talking to users, or design, or shipping. Not because the role sounds impressive.\n\n## Write it down\n\nA one-page list of who owns what beats any tool. Students run their launch week from the same page."
+    },
+    {
+      "id": "post_food_waste_ideas",
+      "slug": "startup-ideas-for-food-waste",
+      "title": "30 startup ideas to solve food waste problems",
+      "excerpt": "Food waste is a massive problem, and a good place for a first product: narrow users, visible waste, measurable results.",
+      "status": "published",
+      "category": {
+        "slug": "stories",
+        "name": "Stories"
+      },
+      "tags": [
+        "ideas",
+        "impact"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2024-04-10T09:00:00.000Z",
+      "updatedAt": "2024-04-10T09:00:00.000Z",
+      "featured": false,
+      "cover": "rings",
+      "image": "/images/blog/food-waste-ideas.jpg",
+      "body": "Food waste is a massive problem, and a useful place to start a first product: the users are specific, the waste is visible, and the result is measurable.\n\n## Why it works as a first build\n\n- You can watch the problem happen in one afternoon\n- The saving is countable — meals, kilos, rupees\n- A single restaurant or household is enough to test with\n\n## Keep the scope brutal\n\nPick one moment where food is thrown away, and one small action that would change it. Build only that. The wider system can wait for phase two."
     }
   ],
   "version": 1

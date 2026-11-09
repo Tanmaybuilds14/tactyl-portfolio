@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -20,7 +21,11 @@ export async function generateMetadata({ params }) {
     title: `${story.name} — student project`,
     description: story.tagline,
     alternates: { canonical: `/success-stories/${slug}` },
-    openGraph: { title: story.name, description: story.tagline },
+    openGraph: {
+      title: story.name,
+      description: story.tagline,
+      images: story.image ? [{ url: story.image }] : undefined,
+    },
   };
 }
 
@@ -85,6 +90,19 @@ export default async function StoryPage({ params }) {
                 </dd>
               </div>
             </dl>
+
+            {story.image && (
+              <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-muted">
+                <Image
+                  src={story.image}
+                  alt={`${story.name} app screenshot`}
+                  fill
+                  priority
+                  sizes="(max-width: 896px) 100vw, 896px"
+                  className="object-cover object-top"
+                />
+              </div>
+            )}
           </div>
         </header>
 

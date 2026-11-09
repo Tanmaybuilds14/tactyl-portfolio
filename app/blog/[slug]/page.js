@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
@@ -38,6 +39,7 @@ export async function generateMetadata({ params }) {
       type: "article",
       title: post.title,
       description: post.excerpt,
+      images: post.image ? [{ url: post.image }] : undefined,
       publishedTime: post.publishedAt || undefined,
       modifiedTime: post.updatedAt || undefined,
     },
@@ -125,6 +127,19 @@ async function Article({ params }) {
             <p className="font-label mt-6 text-muted-foreground">
               By {post.author?.name || site.name}
             </p>
+
+            {post.image && (
+              <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-muted">
+                <Image
+                  src={post.image}
+                  alt=""
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className="object-cover"
+                />
+              </div>
+            )}
           </div>
         </header>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
@@ -21,15 +22,23 @@ export function StoryCard({ story, index }) {
   return (
     <Link href={`/success-stories/${story.slug}`} className="group block h-full">
       <Card className="h-full gap-0 py-0 transition-colors group-hover:ring-foreground/30">
-        <div
-          className={`relative h-40 overflow-hidden border-b border-border bg-gradient-to-br ${story.accent} to-transparent`}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,oklch(1_0_0/0.16),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(1_0_0/0.05)_1px,transparent_1px)] [background-size:28px_28px]" />
-          <span className="font-label absolute top-4 left-4 text-foreground/60">
-            0{index + 1} / {story.category}
+        <div className="relative h-44 overflow-hidden border-b border-border bg-muted">
+          {story.image ? (
+            <Image
+              src={story.image}
+              alt={`${story.name} app screenshot`}
+              fill
+              sizes="(max-width: 640px) 86vw, (max-width: 1024px) 45vw, 380px"
+              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className={`absolute inset-0 bg-gradient-to-br ${story.accent} to-transparent`} />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/10 to-transparent" />
+          <span className="font-label absolute top-3 left-4 text-foreground/70">
+            {String(index + 1).padStart(2, "0")} / {story.category}
           </span>
-          <div className="absolute right-4 bottom-4 text-right">
+          <div className="absolute right-4 bottom-3 text-right">
             <span className="block text-2xl leading-none font-medium tracking-tight">
               {story.metric}
             </span>

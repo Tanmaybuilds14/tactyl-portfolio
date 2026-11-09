@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -14,12 +15,23 @@ export function PostCard({ post, compact = false }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
       <Card className="h-full gap-0 py-0 transition-colors group-hover:border-foreground/25">
-        <div
-          className={`relative h-32 overflow-hidden border-b border-border bg-gradient-to-br ${
-            coverStyles[post.cover] || coverStyles.grid
-          } to-transparent`}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(1_0_0/0.14),transparent_55%)]" />
+        <div className="relative h-32 overflow-hidden border-b border-border bg-muted">
+          {post.image ? (
+            <Image
+              src={post.image}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 90vw, 360px"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${
+                coverStyles[post.cover] || coverStyles.grid
+              } to-transparent`}
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-card/85 via-transparent to-transparent" />
           <span className="font-label absolute bottom-3 left-4 text-foreground/70">
             {post.category?.name}
           </span>
