@@ -1,0 +1,77 @@
+{
+  "posts": [
+    {
+      "id": "post_cut_two_thirds",
+      "slug": "why-we-cut-two-thirds-of-every-idea",
+      "title": "Why we cut two-thirds of every student's idea in week one",
+      "excerpt": "Scope is the difference between a launched product and an abandoned folder. Here is the cut we make with every student, and why it works.",
+      "status": "published",
+      "category": {
+        "slug": "method",
+        "name": "Method"
+      },
+      "tags": [
+        "scope",
+        "programme"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2025-07-09T09:00:00.000Z",
+      "updatedAt": "2025-07-09T09:00:00.000Z",
+      "featured": true,
+      "cover": "tunnel",
+      "body": "Every cohort starts the same way: a student describes an app with nine features, a marketplace, a chat system and a subscription tier. It is ambitious, it is coherent, and it cannot be built by one person in eight weeks.\n\n## The cut is the lesson\n\nWe do not tell students their idea is bad. We ask a narrower question: **which single user, on which single afternoon, gets value from this?**\n\nThat question usually removes two-thirds of the feature list. What remains is a product that can be built, tested with real people and launched inside the programme.\n\n> If a feature cannot be explained in one sentence to the person who will use it, it is not ready to be built.\n\n## What survives the cut\n\nThree things tend to survive:\n\n1. The core action — the thing the user came to do.\n2. The evidence that it worked — a confirmation, a result, a saved record.\n3. The way the student finds out it failed — feedback from a real user.\n\nEverything else is a phase-two feature. Not deleted, just written down and moved out of the build window.\n\n## Why parents worry\n\nCutting scope can look like lowering ambition. The opposite is true. A student who launches a small product learns deployment, feedback, iteration and public speaking. A student who abandons a large one learns that they ran out of time.\n\nThe ambition is not in the feature list. It is in finishing something that someone else uses."
+    },
+    {
+      "id": "post_launch_week",
+      "slug": "what-launch-week-actually-teaches",
+      "title": "What launch week actually teaches (and coursework cannot)",
+      "excerpt": "The first ten users are uncomfortable, unglamorous and the most educational part of the whole eight weeks.",
+      "status": "published",
+      "category": {
+        "slug": "stories",
+        "name": "Stories"
+      },
+      "tags": [
+        "launch",
+        "feedback"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2025-06-02T09:00:00.000Z",
+      "updatedAt": "2025-06-02T09:00:00.000Z",
+      "featured": false,
+      "cover": "grid",
+      "body": "Launch week is where the programme stops being a class. Until then, the only person who has used the app is the student who built it — and they know where every button is.\n\n## The first ten users\n\nWe ask for ten real users. Not classmates, not parents. People who have the problem the app claims to solve.\n\nThe first three usually go badly. A form does not submit, a label is confusing, the empty state is a dead end. This is not failure; it is the first honest measurement of the work.\n\n## Feedback is a skill\n\nStudents practise asking a specific question — \"what did you expect to happen when you tapped that?\" — instead of \"do you like it?\". The second question produces politeness. The first produces a bug list.\n\n## Demo day\n\nAt the end of week eight, students present to family, mentors and peers. The brief is two minutes: the problem, the product, the first result. No slides full of features.\n\nThe room is usually surprised by how plainly the students talk about what did not work. That is the habit we are trying to build — the ability to describe your own work accurately, in public, without exaggerating."
+    },
+    {
+      "id": "post_no_code_first",
+      "slug": "no-code-first-when-code-comes-later",
+      "title": "No-code first: when we add code, and why not sooner",
+      "excerpt": "Students ship before they learn syntax. That order is deliberate — here is where it helps and where it stops working.",
+      "status": "published",
+      "category": {
+        "slug": "method",
+        "name": "Method"
+      },
+      "tags": [
+        "no-code",
+        "curriculum"
+      ],
+      "author": {
+        "name": "Tactyqal Labs",
+        "initials": "TL"
+      },
+      "publishedAt": "2025-04-18T09:00:00.000Z",
+      "updatedAt": "2025-04-18T09:00:00.000Z",
+      "featured": false,
+      "cover": "rings",
+      "body": "There is a version of this programme where week one starts with a code editor. It produces students who can write a loop and have never shipped anything.\n\n## Ship, then understand\n\nNo-code tools let a student put a real product in front of a real user in days. That first launch changes the questions they ask. Instead of \"what does this function do?\", they ask \"why do users drop off here?\"\n\nThose are better questions, and they arrive earlier.\n\n## When code is the right answer\n\nWe introduce code when a tool hits a wall that blocks the product:\n\n- A data shape the no-code platform cannot represent\n- A calculation the interface cannot express\n- A performance or cost limit that affects real users\n\nAt that point the student has a reason to learn, a working product to modify, and a way to check whether the change helped.\n\n## The trade-off\n\nNo-code has a ceiling. Students who want to work on systems software, games or performance-critical products will outgrow it. We say so in the first session rather than in week eight.\n\nFor everyone else, the sequence holds: build the product, find the wall, learn what the wall is made of."
+    }
+  ],
+  "version": 1
+}
