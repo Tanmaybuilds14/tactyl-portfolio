@@ -47,11 +47,11 @@ async function StudioList({ searchParams }) {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button render={<Link href="/blog" />} variant="outline" className="rounded-full">
+          <Button render={<Link href="/blog" />} variant="outline" className="rounded-md">
             View blog
             <ArrowUpRight data-icon="inline-end" />
           </Button>
-          <Button render={<Link href="/studio/new" />} className="rounded-full">
+          <Button render={<Link href="/studio/new" />} className="rounded-md">
             <Plus data-icon="inline-start" />
             New post
           </Button>
@@ -108,7 +108,7 @@ async function StudioList({ searchParams }) {
                 variant="outline"
                 size="sm"
                 render={<Link href={`/studio/${post.id}`} />}
-                className="rounded-full"
+                className="rounded-md"
               >
                 Edit
               </Button>
@@ -117,7 +117,7 @@ async function StudioList({ searchParams }) {
                 <form action={toggleStatusAction}>
                   <input type="hidden" name="id" value={post.id} />
                   <input type="hidden" name="status" value="draft" />
-                  <Button type="submit" variant="ghost" size="sm" className="rounded-full">
+                  <Button type="submit" variant="ghost" size="sm" className="rounded-md">
                     Unpublish
                   </Button>
                 </form>
@@ -125,7 +125,7 @@ async function StudioList({ searchParams }) {
                 <form action={toggleStatusAction}>
                   <input type="hidden" name="id" value={post.id} />
                   <input type="hidden" name="status" value="published" />
-                  <Button type="submit" variant="ghost" size="sm" className="rounded-full">
+                  <Button type="submit" variant="ghost" size="sm" className="rounded-md">
                     Publish
                   </Button>
                 </form>
@@ -133,7 +133,7 @@ async function StudioList({ searchParams }) {
 
               <form action={previewAction}>
                 <input type="hidden" name="slug" value={post.slug} />
-                <Button type="submit" variant="ghost" size="sm" className="rounded-full">
+                <Button type="submit" variant="ghost" size="sm" className="rounded-md">
                   Preview
                 </Button>
               </form>
@@ -144,7 +144,7 @@ async function StudioList({ searchParams }) {
                   type="submit"
                   variant="ghost"
                   size="sm"
-                  className="rounded-full text-destructive hover:text-destructive"
+                  className="rounded-md text-destructive hover:text-destructive"
                 >
                   Delete
                 </Button>
@@ -155,7 +155,7 @@ async function StudioList({ searchParams }) {
       </ul>
 
       <form action={logoutAction} className="mt-10">
-        <Button type="submit" variant="outline" size="sm" className="rounded-full">
+        <Button type="submit" variant="outline" size="sm" className="rounded-md">
           Sign out
         </Button>
       </form>

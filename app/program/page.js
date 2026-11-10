@@ -23,7 +23,7 @@ export default function ProgramPage() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,oklch(1_0_0/0.08),transparent_55%)]" />
+        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Badge variant="outline" className="font-label border-foreground/20">
             8 weeks · 1:1 · Ages 13–18
@@ -36,14 +36,14 @@ export default function ProgramPage() {
             with real users — we cut scope until that is achievable, not extend the timeline.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Button render={<Link href="/contact" />} className="h-11 rounded-full px-6">
+            <Button render={<Link href="/contact" />} className="h-10 rounded-md px-5 shadow-lg shadow-brand/25">
               Book a free consultation
               <ArrowUpRight data-icon="inline-end" />
             </Button>
             <Button
               variant="outline"
               render={<Link href="/pricing" />}
-              className="h-11 rounded-full px-6"
+              className="h-10 rounded-md px-5"
             >
               {site.price} · see pricing
             </Button>

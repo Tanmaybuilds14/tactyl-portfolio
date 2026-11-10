@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-import { TunnelHero } from "@/components/sections/hero";
+import { Hero } from "@/components/sections/hero";
 import { StatsStrip } from "@/components/sections/stats-strip";
 import { StoriesGallery } from "@/components/sections/stories-gallery";
 import { Journey } from "@/components/sections/journey";
 import { WhyGrid } from "@/components/sections/why-grid";
-import { ToolsGrid, ToolsTeaser } from "@/components/sections/tools-grid";
+import { ToolsBento, ToolsTeaser } from "@/components/sections/tools-bento";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Pricing } from "@/components/sections/pricing";
 import { Faq } from "@/components/sections/faq";
@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <TunnelHero cards={stories} />
+      <Hero cards={stories} />
       <StatsStrip stats={stats} />
 
       <section className="bg-background">
@@ -44,7 +44,7 @@ export default async function HomePage() {
               <Button
                 variant="outline"
                 render={<Link href="/success-stories" />}
-                className="rounded-full"
+                className="rounded-md"
               >
                 All success stories
                 <ArrowUpRight data-icon="inline-end" />
@@ -61,13 +61,13 @@ export default async function HomePage() {
       <section className="border-t border-border bg-background">
         <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionHeading
-            eyebrow="Free tools"
-            title="Eight assessments, no account required."
+            eyebrow="Free tools — no account required"
+            title="Eight assessments to pressure-test an idea."
             body="Use them before you apply, or bring the result to a consultation. Each one takes under ten minutes."
             action={<ToolsTeaser />}
           />
           <div className="mt-10">
-            <ToolsGrid tools={tools} limit={6} />
+            <ToolsBento tools={tools} limit={6} />
           </div>
         </div>
       </section>
@@ -75,7 +75,7 @@ export default async function HomePage() {
       <section className="border-t border-border bg-background">
         <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
           <SectionHeading
-            eyebrow="Parents and students"
+            eyebrow="Founders + parents"
             title="What people say after eight weeks."
             className="mb-10"
           />
@@ -91,7 +91,7 @@ export default async function HomePage() {
             eyebrow="From the blog"
             title="How the programme actually works."
             action={
-              <Button variant="outline" render={<Link href="/blog" />} className="rounded-full">
+              <Button variant="outline" render={<Link href="/blog" />} className="rounded-md">
                 Read the blog
                 <ArrowUpRight data-icon="inline-end" />
               </Button>

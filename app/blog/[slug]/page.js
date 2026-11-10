@@ -90,7 +90,7 @@ async function Article({ params }) {
 
       <article>
         <header className="relative overflow-hidden border-b border-border">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_0%,oklch(1_0_0/0.08),transparent_55%)]" />
+          <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
           <div className="relative mx-auto w-full max-w-3xl px-5 py-14 sm:px-8 sm:py-20">
             <Link
               href="/blog"

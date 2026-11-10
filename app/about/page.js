@@ -20,7 +20,7 @@ export default function AboutPage() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_0%,oklch(1_0_0/0.08),transparent_55%)]" />
+        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Badge variant="outline" className="font-label border-foreground/20">
             About
@@ -106,14 +106,14 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button render={<Link href="/program" />} className="rounded-full">
+              <Button render={<Link href="/program" />} className="rounded-md">
                 The programme
                 <ArrowUpRight data-icon="inline-end" />
               </Button>
               <Button
                 variant="outline"
                 render={<Link href={`mailto:${site.email}`} />}
-                className="rounded-full"
+                className="rounded-md"
               >
                 {site.email}
               </Button>

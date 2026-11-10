@@ -101,7 +101,7 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
       style={{ width: cardWidth, transform, opacity, zIndex: card.index + 1 }}
       className="pointer-events-none absolute top-1/2 left-1/2 aspect-[4/5] select-none"
     >
-      <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-card shadow-2xl shadow-black/50 ring-1 ring-foreground/12">
+      <div className="group relative h-full w-full overflow-hidden rounded-xl border border-border bg-card shadow-2xl shadow-black/50">
         {card.item.image ? (
           <Image
             src={card.item.image}
@@ -122,8 +122,8 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
         />
 
         <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-2">
-          <span className="font-label text-foreground/60">{card.item.category}</span>
-          <span className="font-mono text-[0.62rem] text-foreground/40">{card.item.year}</span>
+          <span className="font-label text-white/70">{card.item.category}</span>
+          <span className="font-mono text-[0.62rem] tracking-[0.1em] text-white/50">{card.item.year}</span>
         </div>
 
         <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/75 via-black/10 to-transparent p-4 sm:p-5">
@@ -143,10 +143,10 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
 
 export default function PerspectiveTunnelHero({
   cards,
-  eyebrow = "8-week 1:1 programme · Ages 13–18",
-  title = "Empower your kid to build the next app that",
-  accent = "impacts millions.",
-  description = "In eight weeks, one student and one mentor take a real problem from interview to a launched product.",
+  eyebrow = "8-week 1:1 programme · ages 13–18",
+  title = "Build and launch a real app",
+  accent = "in 8 weeks.",
+  description = "One student. One mentor. Weekly build logs, a Friday demo, and a deployed product at the end — starting from no code.",
 }) {
   const sectionRef = useRef(null);
   const [stage, setStage] = useState({
@@ -206,13 +206,14 @@ export default function PerspectiveTunnelHero({
             transformStyle: "preserve-3d",
           }}
         >
-          {/* Background grid & glow */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(oklch(1_0_0/0.12)_1px,transparent_1px)] [background-size:28px_28px] opacity-60 [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,oklch(1_0_0/0.08)_0%,transparent_70%)]" />
+          {/* Background blueprint grid */}
+          <div className="pointer-events-none absolute inset-0 [&_.grid-bg]:opacity-50">
+            <div className="grid-bg absolute inset-0" />
+          </div>
 
           {/* Depth ring guides */}
-          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[48vmin] w-[48vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/12" />
-          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[76vmin] w-[76vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-foreground/10" />
+          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[48vmin] w-[48vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-border" />
+          <div className="pointer-events-none absolute top-1/2 left-1/2 h-[76vmin] w-[76vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-border/60" />
 
           {/* 3D Z-space plane */}
           <div
@@ -243,21 +244,19 @@ export default function PerspectiveTunnelHero({
           className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center"
         >
           <div className="flex max-w-2xl flex-col items-center">
-            <p className="font-label text-foreground/50">{eyebrow}</p>
+            <p className="font-label text-muted-foreground">{eyebrow}</p>
             <h1 className="mt-5 text-4xl leading-[0.95] font-medium tracking-[-0.045em] text-balance sm:text-6xl lg:text-7xl">
               {title}{" "}
-              <span className="bg-gradient-to-b from-foreground via-foreground/80 to-foreground/35 bg-clip-text text-transparent">
-                {accent}
-              </span>
+              <span className="text-brand-soft">{accent}</span>
             </h1>
-            <p className="mt-5 max-w-[42ch] text-sm leading-relaxed font-light text-muted-foreground sm:text-base">
+            <p className="mt-5 max-w-[42ch] text-sm leading-relaxed text-muted-foreground sm:text-base">
               {description}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/contact"
-                className={buttonVariants({ className: "h-11 rounded-full px-6 text-sm" })}
+                className={buttonVariants({ className: "h-10 rounded-md px-5 text-sm shadow-lg shadow-brand/25" })}
               >
                 Book a free consultation
                 <ArrowUpRight data-icon="inline-end" />
@@ -266,7 +265,7 @@ export default function PerspectiveTunnelHero({
                 href="/success-stories"
                 className={buttonVariants({
                   variant: "outline",
-                  className: "h-11 rounded-full border-foreground/20 px-6 text-sm",
+                  className: "h-10 rounded-md px-5 text-sm",
                 })}
               >
                 See student work
@@ -280,8 +279,7 @@ export default function PerspectiveTunnelHero({
           style={{ opacity: hintOpacity }}
           className="pointer-events-none absolute inset-x-0 bottom-8 z-20 flex flex-col items-center gap-2"
         >
-          <span className="font-label text-muted-foreground">Scroll to fly through the work</span>
-          <ArrowDown className="size-3.5 animate-bounce text-muted-foreground" />
+          <span className="font-label text-muted-foreground">Scroll to fly through the work</span>          <ArrowDown className="size-3.5 animate-bounce text-muted-foreground" />
         </motion.div>
       </div>
     </section>

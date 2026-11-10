@@ -19,7 +19,7 @@ export default function GlobalError({ error, reset }) {
         The error has been logged. Try again, or email us at hello@tactyqal.com if it keeps
         happening.
       </p>
-      <Button onClick={reset} className="rounded-full">
+      <Button onClick={reset} className="rounded-md">
         Try again
       </Button>
     </div>

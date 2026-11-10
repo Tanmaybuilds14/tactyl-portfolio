@@ -45,7 +45,7 @@ export default function StudioLoginPage() {
           </Alert>
         )}
 
-        <Button type="submit" disabled={pending} className="h-10 rounded-full">
+        <Button type="submit" disabled={pending} className="h-10 rounded-md">
           {pending ? (
             <>
               <Loader2 className="animate-spin" data-icon="inline-start" />

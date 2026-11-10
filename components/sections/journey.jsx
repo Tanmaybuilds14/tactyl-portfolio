@@ -14,8 +14,8 @@ function PhaseDetail({ phase }) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <span className="font-label rounded-full border border-foreground/20 px-3 py-1.5 text-foreground/70">
-          {phase.weeks}
+        <span className="font-mono rounded-md border border-border bg-card px-2.5 py-1.5 text-[0.62rem] tracking-[0.14em] tabular-nums text-muted-foreground">
+          {phase.weeks.toUpperCase()}
         </span>
         <span className="font-label text-muted-foreground">{phase.label}</span>
       </div>
@@ -96,7 +96,7 @@ function JourneyScroll({ phases }) {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1"
-                    className="text-foreground/15"
+                    className="text-border"
                   />
                   <path
                     data-draw
@@ -104,7 +104,7 @@ function JourneyScroll({ phases }) {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="text-foreground/70"
+                    className="text-brand-soft/70"
                   />
                 </svg>
               </LineDraw>
@@ -118,10 +118,10 @@ function JourneyScroll({ phases }) {
                       <span
                         className={`absolute top-2 -left-8 size-2.5 rounded-full border transition-colors duration-300 ${
                           isActive
-                            ? "border-foreground bg-foreground"
+                            ? "border-brand bg-brand"
                             : isDone
-                              ? "border-foreground/60 bg-foreground/60"
-                              : "border-foreground/25 bg-background"
+                              ? "border-brand/50 bg-brand/50"
+                              : "border-border bg-background"
                         }`}
                       />
                       <button
@@ -159,7 +159,7 @@ function JourneyScroll({ phases }) {
             <div className="h-px w-full bg-border">
               <motion.div
                 style={{ scaleX: progress }}
-                className="h-px origin-left bg-foreground/70"
+                className="h-px origin-left bg-brand/70"
               />
             </div>
           </div>

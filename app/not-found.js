@@ -14,10 +14,10 @@ export default function NotFound() {
         the blog.
       </p>
       <div className="flex flex-wrap gap-3">
-        <Button render={<Link href="/" />} className="rounded-full">
+        <Button render={<Link href="/" />} className="rounded-md">
           Back home
         </Button>
-        <Button variant="outline" render={<Link href="/blog" />} className="rounded-full">
+        <Button variant="outline" render={<Link href="/blog" />} className="rounded-md">
           Read the blog
         </Button>
       </div>

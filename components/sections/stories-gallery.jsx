@@ -20,8 +20,11 @@ import {
 
 export function StoryCard({ story, index }) {
   return (
-    <Link href={`/success-stories/${story.slug}`} className="group block h-full">
-      <Card className="h-full gap-0 py-0 transition-colors group-hover:ring-foreground/30">
+    <Link
+      href={`/success-stories/${story.slug}`}
+      className="group block h-full transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5"
+    >
+      <Card className="h-full gap-0 py-0 transition-colors group-hover:border-brand/40">
         <div className="relative h-44 overflow-hidden border-b border-border bg-muted">
           {story.image ? (
             <Image
@@ -32,30 +35,36 @@ export function StoryCard({ story, index }) {
               className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
           ) : (
-            <div className={`absolute inset-0 bg-gradient-to-br ${story.accent} to-transparent`} />
+            <div className="grid-bg absolute inset-0 opacity-80" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/10 to-transparent" />
-          <span className="font-label absolute top-3 left-4 text-foreground/70">
-            {String(index + 1).padStart(2, "0")} / {story.category}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+          <span className="font-mono absolute top-3 left-4 text-[0.62rem] tracking-[0.16em] text-white/80">
+            {String(index + 1).padStart(2, "0")} / {story.category.toUpperCase()}
           </span>
           <div className="absolute right-4 bottom-3 text-right">
-            <span className="block text-2xl leading-none font-medium tracking-tight">
+            <span className="block text-2xl leading-none font-medium tracking-tight tabular-nums text-white">
               {story.metric}
             </span>
-            <span className="font-label text-foreground/60">{story.metricLabel}</span>
+            <span className="font-mono text-[0.6rem] tracking-[0.14em] text-white/60">
+              {story.metricLabel}
+            </span>
           </div>
         </div>
         <CardHeader className="pt-5">
           <div className="flex items-start justify-between gap-3">
             <CardTitle className="text-lg tracking-tight">{story.name}</CardTitle>
-            <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-[color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-soft" />
           </div>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col justify-between gap-4 pb-5">
           <p className="text-sm leading-relaxed text-muted-foreground">{story.tagline}</p>
           <div className="flex flex-wrap gap-1.5">
             {story.stack.slice(0, 2).map((item) => (
-              <Badge key={item} variant="secondary" className="font-label">
+              <Badge
+                key={item}
+                variant="outline"
+                className="font-mono rounded-sm text-[0.6rem] tracking-[0.12em] text-muted-foreground"
+              >
                 {item}
               </Badge>
             ))}
@@ -127,7 +136,7 @@ function ScrollGallery({ stories }) {
           <div className="flex w-[20rem] shrink-0 items-center">
             <Link
               href="/success-stories"
-              className="group flex flex-col gap-3 rounded-2xl border border-dashed border-border p-8 transition-colors hover:border-foreground/40"
+              className="group flex flex-col gap-3 rounded-xl border border-dashed border-border p-8 transition-colors hover:border-brand/50"
             >
               <span className="font-label text-muted-foreground">All work</span>
               <span className="text-2xl leading-tight font-medium tracking-tight">

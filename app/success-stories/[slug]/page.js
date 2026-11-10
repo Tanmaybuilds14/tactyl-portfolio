@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,6 +8,7 @@ import { Cta } from "@/components/sections/cta";
 import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { stories, getStory } from "@/lib/content/stories";
 
 export function generateStaticParams() {
@@ -29,7 +31,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function StoryPage({ params }) {
+export default function StoryPage(props) {
+  return (
+    <>
+      <Suspense fallback={<StorySkeleton />}>
+        <Story params={props.params} />
+      </Suspense>
+      <Cta />
+    </>
+  );
+}
+
+async function Story({ params }) {
   const { slug } = await params;
   const story = getStory(slug);
   if (!story) notFound();
@@ -38,13 +51,9 @@ export default async function StoryPage({ params }) {
   const next = stories[(index + 1) % stories.length];
 
   return (
-    <>
-      <article>
+    <article>
         <header className="relative overflow-hidden border-b border-border">
-          <div
-            aria-hidden="true"
-            className={`absolute inset-0 bg-gradient-to-br ${story.accent} to-transparent opacity-60`}
-          />
+          <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
           <div className="relative mx-auto w-full max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
             <Link
               href="/success-stories"
@@ -68,22 +77,26 @@ export default async function StoryPage({ params }) {
               {story.tagline}
             </p>
 
-            <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-border/60 sm:grid-cols-3">
-              <div className="bg-background/80 p-5 backdrop-blur">
+            <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
+              <div className="bg-card p-5">
                 <dt className="font-label text-muted-foreground">Result</dt>
-                <dd className="mt-2 text-2xl font-medium tracking-tight">{story.metric}</dd>
+                <dd className="font-mono mt-2 text-2xl font-medium tabular-nums">{story.metric}</dd>
                 <dd className="font-label mt-1 text-muted-foreground">{story.metricLabel}</dd>
               </div>
-              <div className="bg-background/80 p-5 backdrop-blur">
+              <div className="bg-card p-5">
                 <dt className="font-label text-muted-foreground">Cohort</dt>
-                <dd className="mt-2 text-2xl font-medium tracking-tight">{story.year}</dd>
+                <dd className="font-mono mt-2 text-2xl font-medium tabular-nums">{story.year}</dd>
                 <dd className="font-label mt-1 text-muted-foreground">{story.cohort}</dd>
               </div>
-              <div className="col-span-2 bg-background/80 p-5 backdrop-blur sm:col-span-1">
+              <div className="col-span-2 bg-card p-5 sm:col-span-1">
                 <dt className="font-label text-muted-foreground">Built with</dt>
                 <dd className="mt-3 flex flex-wrap gap-1.5">
                   {story.stack.map((item) => (
-                    <Badge key={item} variant="outline" className="font-label">
+                    <Badge
+                      key={item}
+                      variant="outline"
+                      className="font-mono rounded-sm text-[0.6rem] tracking-[0.12em]"
+                    >
                       {item}
                     </Badge>
                   ))}
@@ -92,7 +105,7 @@ export default async function StoryPage({ params }) {
             </dl>
 
             {story.image && (
-              <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-muted">
+              <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted">
                 <Image
                   src={story.image}
                   alt={`${story.name} app screenshot`}
@@ -148,7 +161,7 @@ export default async function StoryPage({ params }) {
                   <Button
                     variant="outline"
                     render={<Link href="/contact" />}
-                    className="rounded-full"
+                    className="rounded-md"
                   >
                     Talk to a mentor
                   </Button>
@@ -173,8 +186,25 @@ export default async function StoryPage({ params }) {
           </div>
         </div>
       </article>
+  );
+}
 
-      <Cta />
-    </>
+function StorySkeleton() {
+  return (
+    <div className="relative mx-auto w-full max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
+      <Skeleton className="h-4 w-28" />
+      <div className="mt-8 flex gap-2">
+        <Skeleton className="h-6 w-24 rounded-full" />
+        <Skeleton className="h-6 w-32 rounded-full" />
+      </div>
+      <Skeleton className="mt-5 h-12 w-3/4 sm:h-16" />
+      <Skeleton className="mt-5 h-6 w-full max-w-2xl" />
+      <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl sm:grid-cols-3">
+        <Skeleton className="h-28" />
+        <Skeleton className="h-28" />
+        <Skeleton className="col-span-2 h-28 sm:col-span-1" />
+      </div>
+      <Skeleton className="mt-8 aspect-[16/9] w-full rounded-2xl" />
+    </div>
   );
 }

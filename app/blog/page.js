@@ -24,7 +24,7 @@ export default async function BlogPage() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_0%,oklch(1_0_0/0.08),transparent_55%)]" />
+        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <Badge variant="outline" className="font-label border-foreground/20">
             The build log
@@ -39,7 +39,7 @@ export default async function BlogPage() {
           <div className="mt-8 flex flex-wrap gap-2">
             <Link
               href="/blog"
-              className="font-label rounded-full border border-foreground/20 px-3 py-1.5 text-foreground"
+              className="font-mono rounded-md border border-brand/50 bg-brand/10 px-3 py-1.5 text-[0.68rem] tracking-[0.16em] text-brand-soft"
             >
               All
             </Link>
@@ -47,7 +47,7 @@ export default async function BlogPage() {
               <Link
                 key={category.slug}
                 href={`/blog/category/${category.slug}`}
-                className="font-label rounded-full border border-border px-3 py-1.5 text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+                className="font-mono rounded-md border border-border px-3 py-1.5 text-[0.68rem] tracking-[0.16em] text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground"
               >
                 {category.name} · {category.count}
               </Link>
@@ -66,7 +66,7 @@ export default async function BlogPage() {
             <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8">
               <Link
                 href={`/blog/${featured.slug}`}
-                className="group grid gap-8 rounded-2xl border border-border bg-card p-6 transition-colors hover:border-foreground/25 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+                className="group grid gap-8 rounded-xl border border-border bg-card p-6 transition-colors hover:border-brand/40 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
               >
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-wrap items-center gap-2">
@@ -88,11 +88,10 @@ export default async function BlogPage() {
                     <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </div>
-                <div className="relative h-40 overflow-hidden rounded-xl bg-gradient-to-br from-neutral-400/25 via-neutral-600/10 to-transparent sm:h-52">
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(1_0_0/0.06)_1px,transparent_1px)] [background-size:32px_32px]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(1_0_0/0.16),transparent_60%)]" />
-                  <span className="font-label absolute bottom-4 left-4 text-foreground/60">
-                    {featured.readingMinutes} min read
+                <div className="relative h-40 overflow-hidden rounded-lg border border-border bg-canvas sm:h-52">
+                  <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-90" />
+                  <span className="font-mono absolute bottom-4 left-4 text-[0.62rem] tracking-[0.16em] text-muted-foreground">
+                    {featured.readingMinutes} MIN READ
                   </span>
                 </div>
               </Link>

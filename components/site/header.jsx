@@ -42,20 +42,20 @@ export function Header() {
         style={{ y }}
         className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-300 ${
           scrolled
-            ? "border-border/70 bg-background/80 backdrop-blur-xl"
+            ? "border-border/70 bg-background"
             : "border-transparent bg-transparent"
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
           <Link
             href="/"
-            className="group flex shrink-0 items-center gap-2.5"
+            className="font-mono group flex shrink-0 items-center gap-2.5"
             aria-label={`${site.name} — home`}
           >
-            <span className="relative grid size-7 place-items-center rounded-full border border-foreground/25">
-              <span className="size-1.5 rounded-full bg-foreground transition-transform duration-500 group-hover:scale-150" />
+            <span className="relative grid size-4 place-items-center bg-brand">
+              <span className="absolute inset-y-0 left-0 w-[3px] bg-brand-soft/90 transition-transform duration-500 group-hover:scale-y-50" />
             </span>
-            <span className="font-mono text-[0.8rem] font-medium tracking-[0.28em]">
+            <span className="text-[0.8rem] font-medium tracking-[0.28em]">
               {site.wordmark}
             </span>
           </Link>
@@ -69,7 +69,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <Button
               render={<Link href={site.bookingUrl} />}
-              className="hidden h-9 rounded-full px-4 text-[0.8rem] sm:inline-flex"
+              className="hidden h-9 rounded-md px-4 text-[0.8rem] sm:inline-flex"
             >
               Book a free call
               <ArrowUpRight data-icon="inline-end" />
@@ -81,7 +81,7 @@ export function Header() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full lg:hidden"
+                    className="rounded-md lg:hidden"
                     aria-label="Open menu"
                   />
                 }
@@ -93,9 +93,6 @@ export function Header() {
                   <SheetTitle className="font-mono text-xs tracking-[0.28em]">
                     {site.wordmark}
                   </SheetTitle>
-                  <SheetDescription className="text-xs">
-                    8-week 1:1 build programme
-                  </SheetDescription>
                 </SheetHeader>
                 <nav className="flex flex-col px-4" aria-label="Mobile">
                   {navigation.map((item) => (
@@ -105,22 +102,27 @@ export function Header() {
                       onClick={() => setOpen(false)}
                       className="flex items-center justify-between border-b border-border/60 py-3.5 text-lg tracking-tight last:border-0"
                     >
-                      {item.title}
-                      <ArrowUpRight className="size-4 text-muted-foreground" />
+                      <span className="font-mono text-[0.7rem] tracking-[0.14em] text-muted-foreground">
+                        0{navigation.indexOf(item) + 1}
+                      </span>
+                      <span className="flex items-center gap-3">
+                        {item.title}
+                        <ArrowUpRight className="size-4 text-muted-foreground" />
+                      </span>
                     </Link>
                   ))}
                 </nav>
                 <div className="mt-auto flex flex-col gap-2 p-4">
                   <Button
                     render={<Link href={site.bookingUrl} onClick={() => setOpen(false)} />}
-                    className="h-11 rounded-full"
+                    className="h-11 rounded-md"
                   >
                     Book a free call
                   </Button>
                   <Button
                     variant="outline"
                     render={<Link href="/contact" onClick={() => setOpen(false)} />}
-                    className="h-11 rounded-full"
+                    className="h-11 rounded-md"
                   >
                     Contact
                   </Button>
@@ -151,9 +153,9 @@ function NavItems({ pathname }) {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+            className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
               active
-                ? "bg-secondary text-foreground"
+                ? "bg-card text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -187,11 +189,11 @@ function MobileCta() {
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/90 p-3 backdrop-blur-xl transition-transform duration-300 sm:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background p-3 transition-transform duration-300 sm:hidden ${
         show ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <Button render={<Link href={site.bookingUrl} />} className="h-11 w-full rounded-full">
+      <Button render={<Link href={site.bookingUrl} />} className="h-11 w-full rounded-md">
         Book a free consultation
       </Button>
     </div>

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "lucide-react";
@@ -7,6 +8,7 @@ import { Cta } from "@/components/sections/cta";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { tools, getTool } from "@/lib/content/tools";
 
 export function generateStaticParams() {
@@ -24,7 +26,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ToolPage({ params }) {
+export default function ToolPage(props) {
+  return (
+    <>
+      <Suspense fallback={<ToolSkeleton />}>
+        <ToolContent params={props.params} />
+      </Suspense>
+      <Cta />
+    </>
+  );
+}
+
+async function ToolContent({ params }) {
   const { slug } = await params;
   const tool = getTool(slug);
   if (!tool) notFound();
@@ -34,7 +47,7 @@ export default async function ToolPage({ params }) {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,oklch(1_0_0/0.07),transparent_55%)]" />
+        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
         <div className="relative mx-auto w-full max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
           <Link
             href="/tools"
@@ -120,15 +133,35 @@ export default async function ToolPage({ params }) {
             <Button
               variant="ghost"
               render={<Link href="/tools" />}
-              className="mt-4 rounded-full"
+              className="mt-4 rounded-md"
             >
               All tools
             </Button>
           </div>
         </div>
       </div>
-
-      <Cta />
     </>
+  );
+}
+
+function ToolSkeleton() {
+  return (
+    <div className="relative mx-auto w-full max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
+      <Skeleton className="h-4 w-24" />
+      <div className="mt-8 flex gap-2">
+        <Skeleton className="h-6 w-20 rounded-full" />
+        <Skeleton className="h-6 w-16" />
+      </div>
+      <Skeleton className="mt-5 h-12 w-2/3" />
+      <Skeleton className="mt-4 h-6 w-full max-w-2xl" />
+      <div className="mt-12 grid gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <Skeleton className="h-40 w-full rounded-2xl" />
+        </div>
+        <div className="lg:col-span-5">
+          <Skeleton className="h-48 w-full rounded-2xl" />
+        </div>
+      </div>
+    </div>
   );
 }

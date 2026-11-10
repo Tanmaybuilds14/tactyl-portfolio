@@ -39,8 +39,8 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div className="flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2.5">
-              <span className="grid size-7 place-items-center rounded-full border border-foreground/25">
-                <span className="size-1.5 rounded-full bg-foreground" />
+              <span className="relative grid size-4 place-items-center bg-brand">
+                <span className="absolute inset-y-0 left-0 w-[3px] bg-brand-soft/90" />
               </span>
               <span className="font-mono text-[0.8rem] font-medium tracking-[0.28em]">
                 {site.wordmark}

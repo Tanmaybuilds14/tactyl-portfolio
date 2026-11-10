@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
 
-import { ToolsGrid } from "@/components/sections/tools-grid";
+import { ToolsBento } from "@/components/sections/tools-bento";
 import { Cta } from "@/components/sections/cta";
 import { SectionHeading } from "@/components/sections/section-heading";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { tools } from "@/lib/content/tools";
 
@@ -21,22 +20,23 @@ export default function ToolsPage() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,oklch(1_0_0/0.08),transparent_55%)]" />
+        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-60" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-          <Badge variant="outline" className="font-label border-foreground/20">
-            Free · no account needed
-          </Badge>
+          <p className="font-mono inline-flex items-center gap-2 text-[0.62rem] tracking-[0.2em] text-brand-soft">
+            <span className="size-1.5 rounded-full bg-positive" />
+            [FREE · NO ACCOUNT NEEDED]
+          </p>
           <h1 className="mt-6 max-w-3xl text-[2.5rem] leading-[1.02] font-medium tracking-[-0.045em] sm:text-6xl">
             Eight assessments to pressure-test an idea.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {totalMinutes} minutes of questions across the whole set. Use one before applying,
-            or bring the result to a consultation.
+            <span className="font-mono">{totalMinutes}</span> minutes of questions across the
+            whole set. Use one before applying, or bring the result to a consultation.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button
               render={<Link href="/tools/startup-idea-generator" />}
-              className="h-11 rounded-full px-6"
+              className="h-10 rounded-md px-5 shadow-lg shadow-brand/25"
             >
               Start with the idea generator
               <ArrowUpRight data-icon="inline-end" />
@@ -50,7 +50,7 @@ export default function ToolsPage() {
 
       <section className="bg-background">
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <ToolsGrid tools={tools} />
+          <ToolsBento tools={tools} />
         </div>
       </section>
 

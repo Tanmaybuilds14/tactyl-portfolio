@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -5,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { PostCard } from "@/components/sections/post-card";
 import { Cta } from "@/components/sections/cta";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getBlogCategories, getPostsByCategory } from "@/lib/blog/queries";
 
 export async function generateStaticParams() {
@@ -25,7 +27,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function BlogCategoryPage({ params }) {
+export default function BlogCategoryPage(props) {
+  return (
+    <>
+      <Suspense fallback={<CategorySkeleton />}>
+        <BlogCategoryContent params={props.params} />
+      </Suspense>
+      <Cta />
+    </>
+  );
+}
+
+async function BlogCategoryContent({ params }) {
   const { slug } = await params;
   const categories = await getBlogCategories();
   const category = categories.find((item) => item.slug === slug);
@@ -65,8 +78,22 @@ export default async function BlogCategoryPage({ params }) {
           </div>
         </div>
       </section>
-
-      <Cta />
     </>
+  );
+}
+
+function CategorySkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+      <Skeleton className="h-4 w-24" />
+      <Skeleton className="mt-6 h-6 w-20 rounded-full" />
+      <Skeleton className="mt-4 h-12 w-1/3" />
+      <Skeleton className="mt-3 h-5 w-24" />
+      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-64 rounded-2xl" />
+        ))}
+      </div>
+    </div>
   );
 }

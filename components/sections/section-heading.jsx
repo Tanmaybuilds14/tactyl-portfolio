@@ -19,7 +19,10 @@ export function SectionHeading({
     >
       <div className={cn("max-w-2xl", align === "center" && "mx-auto")}>
         {eyebrow && (
-          <p className="font-label mb-3 text-muted-foreground">{eyebrow}</p>
+          <p className="font-label mb-3 text-muted-foreground">
+            <span aria-hidden="true" className="mr-1.5 text-brand-soft/70">{"//"} </span>
+            {eyebrow}
+          </p>
         )}
         <h2 className="text-3xl leading-[1.05] font-medium tracking-[-0.035em] sm:text-4xl lg:text-[2.9rem]">
           {title}
